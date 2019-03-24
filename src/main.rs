@@ -22,25 +22,19 @@ fn run() -> Result<(), Box<Error>> {
                 if record["Debit Euros"] != "" {
                     let mut s = String::from("-");
                     s.push_str(&record["Debit Euros"]);
-                    println!(
-                        "{},{},{}",
-                        record["Date"],
-                        record["Libelle"].replace('\n', ""),
-                        s,
-                    );
+                    print_line(&record["Date"], &record["Libelle"], &s)
                 } else {
-                    println!(
-                        "{},{},{}",
-                        record["Date"],
-                        record["Libelle"].replace('\n', ""),
-                        record["Credit Euros"],
-                    );
+                    print_line(&record["Date"], &record["Libelle"], &record["Credit Euros"])
                 }
             }
             Err(err) => eprintln!("error reading csv line… {:?}", err),
         }
     }
     Ok(())
+}
+
+fn print_line(date: &String, label: &String, amount: &String) {
+    println!("{},{},{}", date, label.replace('\n', ""), amount,);
 }
 
 fn main() {
