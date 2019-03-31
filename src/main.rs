@@ -19,12 +19,12 @@ fn run() -> Result<(), Box<Error>> {
         let r: Result<Record, csv::Error> = result;
         match r {
             Ok(record) => {
-                if record["Debit Euros"] != "" {
+                if record["Crédit Euros"] != "" {
                     let mut s = String::from("-");
-                    s.push_str(&record["Debit Euros"]);
-                    print_line(&record["Date"], &record["Libelle"], &s)
+                    s.push_str(&record["Crédit Euros"]);
+                    print_line(&record["Date"], &record["Libellé"], &s)
                 } else {
-                    print_line(&record["Date"], &record["Libelle"], &record["Credit Euros"])
+                    print_line(&record["Date"], &record["Libellé"], &record["Débit Euros"])
                 }
             }
             Err(err) => eprintln!("error reading csv line… {:?}", err),
@@ -34,7 +34,7 @@ fn run() -> Result<(), Box<Error>> {
 }
 
 fn print_line(date: &String, label: &String, amount: &String) {
-    println!("{},{},{}", date, label.replace('\n', ""), amount,);
+    println!("{},{},€{}", date, label.replace('\n', ""), amount.replace(',', "."));
 }
 
 fn main() {
